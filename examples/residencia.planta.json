@@ -1,0 +1,873 @@
+{
+  "kind": "cade-floor-plan",
+  "version": 1,
+  "name": "Residência • planta elétrica",
+  "author": "Projeto didático",
+  "date": "20/10/2026",
+  "mainRating": 40,
+  "width": 1600,
+  "height": 1100,
+  "objects": [
+    {
+      "id": "0033a271-76a7-46a1-bb9e-90be3f9918e0",
+      "type": "room",
+      "x": 180,
+      "y": 180,
+      "x2": 740,
+      "y2": 760,
+      "rotation": 0,
+      "width": 12,
+      "label": "Sala",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "fc324769-82ac-444b-9f34-7d9b93d3062b",
+      "type": "room",
+      "x": 740,
+      "y": 180,
+      "x2": 1240,
+      "y2": 500,
+      "rotation": 0,
+      "width": 12,
+      "label": "Quarto",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "1cc837c9-b38d-4b8f-9165-504e39b396ca",
+      "type": "room",
+      "x": 740,
+      "y": 500,
+      "x2": 1240,
+      "y2": 760,
+      "rotation": 0,
+      "width": 12,
+      "label": "Cozinha",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "cefdd736-b34a-4972-ac9a-8c71f687cc63",
+      "type": "door",
+      "x": 740,
+      "y": 420,
+      "x2": 1040,
+      "y2": 670,
+      "rotation": 0,
+      "width": 80,
+      "label": "",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "5e685ffe-d5b6-4138-a44a-bfa083c5fce3",
+      "type": "door",
+      "x": 740,
+      "y": 660,
+      "x2": 1040,
+      "y2": 910,
+      "rotation": 0,
+      "width": 80,
+      "label": "",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "0e0a37b6-b736-4bc9-8985-6da638aa8b9e",
+      "type": "door",
+      "x": 420,
+      "y": 760,
+      "x2": 720,
+      "y2": 1010,
+      "rotation": 270,
+      "width": 90,
+      "label": "",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "f09019b1-59ac-46de-b71a-7ca556c97dda",
+      "type": "dimension",
+      "x": 180,
+      "y": 130,
+      "x2": 1240,
+      "y2": 130,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "e15fb33a-0a9b-4620-90fb-533008f42199",
+      "type": "mainBreaker",
+      "x": 180,
+      "y": 850,
+      "x2": 480,
+      "y2": 1100,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "DG",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "type": "board",
+      "x": 260,
+      "y": 850,
+      "x2": 560,
+      "y2": 1100,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "QGBT",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "bf767dac-6df9-4a81-90a6-852ce481f3ba",
+      "type": "meter",
+      "x": 100,
+      "y": 850,
+      "x2": 400,
+      "y2": 1100,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "MED1",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "42e920e7-1cab-4d4d-8241-e30217cbe50c",
+      "type": "subBoard",
+      "x": 1000,
+      "y": 850,
+      "x2": 1300,
+      "y2": 1100,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "QD1",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "a92fdfe2-6028-4d99-96ce-48e95e20739b",
+      "type": "light",
+      "x": 400,
+      "y": 350,
+      "x2": 700,
+      "y2": 600,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "L1",
+      "power": 100,
+      "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73",
+      "height": 0.3
+    },
+    {
+      "id": "8e173cef-18c0-4d73-902c-026c01710a31",
+      "type": "light",
+      "x": 950,
+      "y": 350,
+      "x2": 1250,
+      "y2": 600,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "L2",
+      "power": 100,
+      "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73",
+      "height": 0.3
+    },
+    {
+      "id": "4c08df68-73a6-4e39-b8fd-2e02008e6aa9",
+      "type": "light",
+      "x": 950,
+      "y": 650,
+      "x2": 1250,
+      "y2": 900,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "L3",
+      "power": 100,
+      "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73",
+      "height": 0.3
+    },
+    {
+      "id": "c45cd899-0b36-4f19-a248-3358723ac84e",
+      "type": "switch",
+      "x": 700,
+      "y": 500,
+      "x2": 1000,
+      "y2": 750,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "S1",
+      "power": 0,
+      "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73",
+      "height": 0.3
+    },
+    {
+      "id": "c59e0066-bc4f-41ef-bda3-037b1d13d8bc",
+      "type": "socketLow",
+      "x": 200,
+      "y": 550,
+      "x2": 500,
+      "y2": 800,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "T1",
+      "power": 100,
+      "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40",
+      "height": 0.3
+    },
+    {
+      "id": "1da94ab6-515c-4502-8f3b-1a7578b29f39",
+      "type": "socketDouble",
+      "x": 650,
+      "y": 250,
+      "x2": 950,
+      "y2": 500,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "T2",
+      "power": 200,
+      "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40",
+      "height": 0.3
+    },
+    {
+      "id": "a79bbfc5-fcc7-4a04-9ec9-1c607f95229b",
+      "type": "socketMid",
+      "x": 1100,
+      "y": 720,
+      "x2": 1400,
+      "y2": 970,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "T3",
+      "power": 600,
+      "circuitId": "6a85c39f-c633-401a-a623-b1d597b1cc1d",
+      "height": 1.2
+    },
+    {
+      "id": "3c834b2a-0413-49e7-971a-a10a3729f848",
+      "type": "junction",
+      "x": 650,
+      "y": 650,
+      "x2": 950,
+      "y2": 900,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "CX1",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "fb3e5ace-9a3d-4812-b9f1-c3adbbf507ba",
+      "type": "data",
+      "x": 220,
+      "y": 300,
+      "x2": 520,
+      "y2": 550,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "RJ1",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    },
+    {
+      "id": "d7e1e8e9-5ead-4823-8cc4-a6531721ece6",
+      "type": "phone",
+      "x": 220,
+      "y": 380,
+      "x2": 520,
+      "y2": 630,
+      "rotation": 0,
+      "width": 12,
+      "label": "",
+      "tag": "TEL1",
+      "power": 0,
+      "circuitId": "",
+      "height": 0.3
+    }
+  ],
+  "routes": [
+    {
+      "id": "a45e34c2-6b73-4f09-a7e5-cccba3eeb0b7",
+      "from": "bf767dac-6df9-4a81-90a6-852ce481f3ba",
+      "to": "e15fb33a-0a9b-4620-90fb-533008f42199",
+      "circuitIds": [],
+      "points": [],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "e1c0fe32-95d8-4f80-b550-e117e74aa4fb",
+          "role": "phase",
+          "label": "F",
+          "section": 6,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": ""
+        },
+        {
+          "id": "d7ce6f45-9926-4eb7-9c84-cb8e22bdb283",
+          "role": "neutral",
+          "label": "N",
+          "section": 6,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": ""
+        },
+        {
+          "id": "d311460f-54ca-4410-9cb4-144f1ab05907",
+          "role": "earth",
+          "label": "PE",
+          "section": 6,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": ""
+        }
+      ]
+    },
+    {
+      "id": "bfd54cc5-346f-47f5-a93f-09730f6cabbf",
+      "from": "e15fb33a-0a9b-4620-90fb-533008f42199",
+      "to": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "circuitIds": [],
+      "points": [],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "a6ca2630-e54a-42e1-bb8e-bacca9cbad98",
+          "role": "phase",
+          "label": "F",
+          "section": 6,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": ""
+        },
+        {
+          "id": "d210a01c-61a8-4866-b4b3-9497bf3a59b7",
+          "role": "neutral",
+          "label": "N",
+          "section": 6,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": ""
+        },
+        {
+          "id": "2d2ce07e-0284-498a-8391-b10d797200b9",
+          "role": "earth",
+          "label": "PE",
+          "section": 6,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": ""
+        }
+      ]
+    },
+    {
+      "id": "ba132f72-9a51-4406-b942-629c6a4bee20",
+      "from": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "to": "42e920e7-1cab-4d4d-8241-e30217cbe50c",
+      "circuitIds": [],
+      "points": [
+        {
+          "x": 260,
+          "y": 920
+        },
+        {
+          "x": 1000,
+          "y": 920
+        }
+      ],
+      "kind": "tray",
+      "size": "100 × 50 mm",
+      "wires": [
+        {
+          "id": "08202bd3-2307-4225-889f-871666913a17",
+          "role": "phase",
+          "label": "F",
+          "section": 6,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": ""
+        },
+        {
+          "id": "d6f86cce-3b42-481e-a8af-637aadacdc9e",
+          "role": "neutral",
+          "label": "N",
+          "section": 6,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": ""
+        },
+        {
+          "id": "b378455d-9fe8-46b8-9c5d-1395d05cad66",
+          "role": "earth",
+          "label": "PE",
+          "section": 6,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": ""
+        }
+      ]
+    },
+    {
+      "id": "e5030530-21a1-4c60-aad5-84537335ec37",
+      "from": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "to": "3c834b2a-0413-49e7-971a-a10a3729f848",
+      "circuitIds": [
+        "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+      ],
+      "points": [
+        {
+          "x": 260,
+          "y": 650
+        }
+      ],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "3ad0e3c7-6b0d-4f49-bd2f-b986b1206889",
+          "role": "phase",
+          "label": "F",
+          "section": 1.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "26db134e-10d1-4cdb-8a55-9a31b93d0a79",
+          "role": "neutral",
+          "label": "N",
+          "section": 1.5,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "c0ab48cf-23b9-4b9e-8617-34932f9832d1",
+          "role": "earth",
+          "label": "PE",
+          "section": 1.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        }
+      ]
+    },
+    {
+      "id": "e951967e-4aa7-4c46-a6a7-3f58a1dfe521",
+      "from": "3c834b2a-0413-49e7-971a-a10a3729f848",
+      "to": "a92fdfe2-6028-4d99-96ce-48e95e20739b",
+      "circuitIds": [
+        "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+      ],
+      "points": [
+        {
+          "x": 400,
+          "y": 650
+        }
+      ],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "e5f4e9b2-48fa-4b1c-927a-5ea1d3ccde19",
+          "role": "phase",
+          "label": "F",
+          "section": 1.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "a4492494-45ea-4400-9e6d-5d2231b344a7",
+          "role": "neutral",
+          "label": "N",
+          "section": 1.5,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "f92ffe95-0bf0-40eb-9724-b21eb133c9b1",
+          "role": "earth",
+          "label": "PE",
+          "section": 1.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        }
+      ]
+    },
+    {
+      "id": "4040c49c-9e30-42bd-bc77-5c87f05394b3",
+      "from": "3c834b2a-0413-49e7-971a-a10a3729f848",
+      "to": "8e173cef-18c0-4d73-902c-026c01710a31",
+      "circuitIds": [
+        "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+      ],
+      "points": [
+        {
+          "x": 650,
+          "y": 350
+        }
+      ],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "94a9991e-8aa5-4093-a378-6fc46d8ded26",
+          "role": "phase",
+          "label": "F",
+          "section": 1.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "79dd8f59-918c-42d5-b21e-c9fb5c06a058",
+          "role": "neutral",
+          "label": "N",
+          "section": 1.5,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "fac2b58a-4b4c-41ed-8a38-d5a4883c9ae7",
+          "role": "earth",
+          "label": "PE",
+          "section": 1.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        }
+      ]
+    },
+    {
+      "id": "fd95d8d8-233d-4d45-a39a-fac96aee0b8e",
+      "from": "3c834b2a-0413-49e7-971a-a10a3729f848",
+      "to": "4c08df68-73a6-4e39-b8fd-2e02008e6aa9",
+      "circuitIds": [
+        "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+      ],
+      "points": [],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "f567c0ba-2419-4702-9b25-01a998cabce4",
+          "role": "phase",
+          "label": "F",
+          "section": 1.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "c09c07bd-02f3-47ac-9ec5-9d37491bb519",
+          "role": "neutral",
+          "label": "N",
+          "section": 1.5,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "1655935b-b650-416d-b1ea-c3939ecd45aa",
+          "role": "earth",
+          "label": "PE",
+          "section": 1.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        }
+      ]
+    },
+    {
+      "id": "d6dc8dc6-9ec5-41a8-912b-5b712b9c1d86",
+      "from": "a92fdfe2-6028-4d99-96ce-48e95e20739b",
+      "to": "c45cd899-0b36-4f19-a248-3358723ac84e",
+      "circuitIds": [
+        "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+      ],
+      "points": [],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "6469e436-63c4-4120-8055-ff9d3eb20d96",
+          "role": "phase",
+          "label": "F",
+          "section": 1.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "e92e7922-fad9-432d-9c8c-2e779bffe5f1",
+          "role": "return",
+          "label": "R",
+          "section": 1.5,
+          "color": "#d66a28",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        },
+        {
+          "id": "6b8efff0-efd2-4665-8f10-6e06ee6716ca",
+          "role": "earth",
+          "label": "PE",
+          "section": 1.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "7fde2ec3-71b0-4941-8165-10d13bd1ea73"
+        }
+      ]
+    },
+    {
+      "id": "96902dfc-c952-4a5f-ab88-0f70fd436fd3",
+      "from": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "to": "c59e0066-bc4f-41ef-bda3-037b1d13d8bc",
+      "circuitIds": [
+        "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+      ],
+      "points": [
+        {
+          "x": 200,
+          "y": 850
+        }
+      ],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "13a21e28-a65b-4ebd-8784-1069835799dd",
+          "role": "phase",
+          "label": "F",
+          "section": 2.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+        },
+        {
+          "id": "92f04999-8339-4eb2-af29-1227cfd34a05",
+          "role": "neutral",
+          "label": "N",
+          "section": 2.5,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+        },
+        {
+          "id": "0054e014-2159-4e82-b4db-4f6bafc444cf",
+          "role": "earth",
+          "label": "PE",
+          "section": 2.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+        }
+      ]
+    },
+    {
+      "id": "71a7817d-e2a8-4de7-81e8-03efed564199",
+      "from": "c59e0066-bc4f-41ef-bda3-037b1d13d8bc",
+      "to": "1da94ab6-515c-4502-8f3b-1a7578b29f39",
+      "circuitIds": [
+        "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+      ],
+      "points": [
+        {
+          "x": 200,
+          "y": 250
+        }
+      ],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "c60f3bf7-7d8e-4119-8a59-f5eb95bdfd67",
+          "role": "phase",
+          "label": "F",
+          "section": 2.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+        },
+        {
+          "id": "77f529ab-d3aa-485a-9626-9c5502f91b21",
+          "role": "neutral",
+          "label": "N",
+          "section": 2.5,
+          "color": "#2685d5",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+        },
+        {
+          "id": "732505f7-cda4-431a-8bd4-ca00b44442de",
+          "role": "earth",
+          "label": "PE",
+          "section": 2.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40"
+        }
+      ]
+    },
+    {
+      "id": "08949f46-3c15-467e-a315-e6a68096a77a",
+      "from": "42e920e7-1cab-4d4d-8241-e30217cbe50c",
+      "to": "a79bbfc5-fcc7-4a04-9ec9-1c607f95229b",
+      "circuitIds": [
+        "6a85c39f-c633-401a-a623-b1d597b1cc1d"
+      ],
+      "points": [
+        {
+          "x": 1100,
+          "y": 850
+        }
+      ],
+      "kind": "conduit",
+      "size": "20 mm",
+      "wires": [
+        {
+          "id": "b11f5850-473e-4951-9cdb-6b8ef31d5af3",
+          "role": "phase",
+          "label": "B",
+          "section": 2.5,
+          "color": "#30343b",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "6a85c39f-c633-401a-a623-b1d597b1cc1d"
+        },
+        {
+          "id": "006f9eff-2da1-4a05-98ff-2d865fb3c1bc",
+          "role": "phase",
+          "label": "C",
+          "section": 2.5,
+          "color": "#ae5433",
+          "stripeColor": "",
+          "quantity": 1,
+          "circuitId": "6a85c39f-c633-401a-a623-b1d597b1cc1d"
+        },
+        {
+          "id": "42bb9fa5-3d95-436f-9910-b3dd1810be05",
+          "role": "earth",
+          "label": "PE",
+          "section": 2.5,
+          "color": "#29934c",
+          "stripeColor": "#e4c72e",
+          "quantity": 1,
+          "circuitId": "6a85c39f-c633-401a-a623-b1d597b1cc1d"
+        }
+      ]
+    }
+  ],
+  "circuits": [
+    {
+      "id": "7fde2ec3-71b0-4941-8165-10d13bd1ea73",
+      "number": 1,
+      "name": "Iluminação",
+      "panelId": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "voltage": 127,
+      "phase": "A",
+      "breaker": 10,
+      "section": 1.5,
+      "conductors": 3,
+      "color": "#cb6847"
+    },
+    {
+      "id": "2c8e934d-63d4-45cc-8132-dd91ca8d5f40",
+      "number": 2,
+      "name": "Tomadas da sala",
+      "panelId": "a02fddd5-c84a-4c39-ae00-5334fab352e6",
+      "voltage": 127,
+      "phase": "A",
+      "breaker": 16,
+      "section": 2.5,
+      "conductors": 3,
+      "color": "#366fbc"
+    },
+    {
+      "id": "6a85c39f-c633-401a-a623-b1d597b1cc1d",
+      "number": 3,
+      "name": "Tomadas da cozinha",
+      "panelId": "42e920e7-1cab-4d4d-8241-e30217cbe50c",
+      "voltage": 220,
+      "phase": "BC",
+      "breaker": 20,
+      "section": 2.5,
+      "conductors": 3,
+      "color": "#439169"
+    }
+  ]
+}
