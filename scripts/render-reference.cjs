@@ -1,0 +1,3 @@
+const {app,BrowserWindow}=require('electron');
+const fs=require('node:fs/promises'),path=require('node:path');
+app.whenReady().then(async()=>{try{const win=new BrowserWindow({show:false,webPreferences:{sandbox:true,contextIsolation:true,nodeIntegration:false}});await win.loadFile(path.resolve('tmp/reference-preview/index.html'));const data=await win.webContents.printToPDF({printBackground:true,pageSize:'A3',landscape:true,preferCSSPageSize:true,displayHeaderFooter:false});await fs.mkdir('output/pdf',{recursive:true});await fs.writeFile('output/pdf/replica-imagem.pdf',data);console.log('PDF criado: output/pdf/replica-imagem.pdf');win.destroy();app.quit();}catch(e){console.error(e);app.exit(1);}});

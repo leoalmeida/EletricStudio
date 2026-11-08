@@ -21,3 +21,5 @@ export function deleteFloor(project,fid){
  if(p.activeFloorId===fid)p=switchFloor(p,p.floors.find(f=>f.id!==fid).id);
  return {...p,floors:p.floors.filter(f=>f.id!==fid)};
 }
+
+export function moveFloor(project,floorId,direction){const p=withFloors(project),index=p.floors.findIndex(f=>f.id===floorId),target=index+direction;if(![-1,1].includes(direction)||index<0||target<0||target>=p.floors.length)return project;const floors=[...p.floors];[floors[index],floors[target]]=[floors[target],floors[index]];return {...p,floors};}

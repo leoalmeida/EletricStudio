@@ -6,6 +6,5 @@ output/
 output/qa-*/
 output/qa-*.txt
 examples/reference
-examples/replica-imagem.planta.json
-docs/
-scripts/
+
+release/
