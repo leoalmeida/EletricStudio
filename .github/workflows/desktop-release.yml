@@ -1,0 +1,105 @@
+name: Desktop builds and release
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, closed]
+permissions:
+  contents: read
+jobs:
+  metadata:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (startsWith(github.head_ref, 'release/v') &&
+       github.event.pull_request.head.repo.full_name == github.repository &&
+       (github.event.action != 'closed' || github.event.pull_request.merged == true))
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+      sha: ${{ steps.version.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.merged && github.event.pull_request.merge_commit_sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - id: version
+        run: node build/release-version.mjs
+  build:
+    needs: metadata
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: win
+            os: windows-latest
+          - platform: linux
+            os: ubuntu-22.04
+          - platform: mac
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.metadata.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libarchive-tools libfuse2
+      - run: npm ci
+      - run: node node_modules/electron/install.js
+      - run: npm test
+      - run: npm run dist:${{ matrix.platform }}
+      - if: runner.os == 'Windows'
+        run: node build/smoke-desktop.mjs "release/win/win-unpacked/Eletric Studio.exe"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: desktop-${{ matrix.platform }}-${{ needs.metadata.outputs.tag }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            release/${{ matrix.platform }}/*.exe
+            release/${{ matrix.platform }}/*.AppImage
+            release/${{ matrix.platform }}/*.deb
+            release/${{ matrix.platform }}/*.dmg
+            release/${{ matrix.platform }}/*.zip
+            release/${{ matrix.platform }}/SHA256SUMS-*.txt
+  publish:
+    needs: [metadata, build]
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
+    concurrency:
+      group: desktop-release-${{ needs.metadata.outputs.tag }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.metadata.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: desktop-*-${{ needs.metadata.outputs.tag }}
+          path: release-assets
+          merge-multiple: true
+      - name: Validate all binaries, create tag, upload and publish release
+        run: node build/publish-release.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.metadata.outputs.tag }}
+          RELEASE_SHA: ${{ needs.metadata.outputs.sha }}

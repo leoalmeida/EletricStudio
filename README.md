@@ -6,11 +6,11 @@ Prévia 0.5 independente em Electron, React e Node.js para desenhar e simular l�
 
 ## Novo: planta baixa elétrica
 
-A aba **Planta elétrica** permite criar paredes, portas, ambientes, cotas e anotações, inserir pontos elétricos e ligar circuitos ao disjuntor geral pelos quadros. Inclui biblioteca com 27 ferramentas/símbolos de instalação, propriedades, quadro de cargas, quantitativo de eletrodutos/eletrocalhas, unifilar e exportação PDF A3/A4 com escala, legenda e carimbo. O modo **Comandos e simulação** continua disponível.
+A aba **Planta elétrica** permite criar paredes, portas, ambientes, cotas e anotações, inserir pontos elétricos e ligar circuitos ao disjuntor geral pelos quadros. Inclui biblioteca com 55 ferramentas/símbolos de instalação, propriedades, quadro de cargas, quantitativo de eletrodutos/eletrocalhas, unifilar e exportação PDF A3/A4 com escala, legenda e carimbo. O modo **Comandos e simulação** continua disponível.
 
 **Fios em eletrocalhas e conduítes:** selecione um percurso para definir função, circuito, bitola, quantidade e cor de cada condutor (incluindo bicolor), ou use a aba **Fios e cabos** para passar fios em vários trechos. Há representação colorida na planta e quantitativo de fios no PDF.
 
-Consulte [o manual de planta elétrica](docs/PLANTA.md). Abra `examples/residencia.planta.json` para testar, ou use o exemplo carregado no editor. A amostra de impressão está em `output/pdf/planta-exemplo.pdf`. São 120 testes automáticos entre os módulos de comandos, catálogo, planta, arquitetura, pavimentos e interações.
+Consulte [o manual de planta elétrica](docs/PLANTA.md). Abra `examples/residencia.planta.json` para testar, ou use o exemplo carregado no editor. São 175 testes automáticos entre os módulos de comandos, catálogo, planta, arquitetura, pavimentos e interações.
 
 Na planta, **Ctrl + rolagem do mouse** ajusta o zoom de 15% a 300%, mantendo o ponto sob o cursor quando os limites da rolagem permitem. Em **Selecionar**, use **Ctrl+clique** para adicionar/remover componentes ou arraste uma área livre para selecionar os elementos inteiramente contidos nela. Dentro de ambientes, comece a seleção longe das paredes; para selecionar um ambiente, clique em sua borda. **Ctrl+A** seleciona todos os elementos. Arraste um item selecionado para mover o grupo; curvas dos percursos entre dois componentes selecionados acompanham o movimento, preservando os fios. **Ctrl+Z** desfaz a movimentação inteira e **Ctrl+Y** a refaz. **Esc** limpa a seleção.
 
@@ -22,9 +22,13 @@ Na planta, **Ctrl + rolagem do mouse** ajusta o zoom de 15% a 300%, mantendo o p
 
 ## Réplica da imagem enviada
 
-No modo Planta elétrica, clique em **Planta da imagem enviada** na biblioteca. O projeto `examples/replica-imagem.planta.json` também pode ser aberto manualmente: contém 176 elementos e 81 percursos editáveis, reconstruídos pelas proporções da captura. A prévia PDF fica em `output/pdf/replica-imagem.pdf`. Veja `docs/REPLICA-IMAGEM.md` para as incertezas da reconstrução.
+Na tela inicial, use **Abrir arquivo** para importar a planta de referência. O projeto `examples/replica-imagem.planta.json` também pode ser aberto manualmente: contém 176 elementos e 81 percursos editáveis, reconstruídos pelas proporções da captura. Veja `docs/REPLICA-IMAGEM.md` para as incertezas da reconstrução.
 
 Campos ilegíveis permanecem vazios/a confirmar. Os trajetos visíveis não foram convertidos em condutores com bitola ou cor inventadas. Alguns símbolos de distribuição, portas e identificações são aproximações a revisar.
+
+## Build e publicação
+
+Veja [BUILDING.md](BUILDING.md) para gerar binários Windows, Linux e macOS. PRs de `release/vX.X.X` para `main` passam pelos três builds; a tag e a release com os binários só são publicadas após o merge e o sucesso de todos os builds.
 
 ## Executar no Windows
 
@@ -36,7 +40,7 @@ npm install
 npm run desktop
 ```
 
-As dependências já foram instaladas nesta máquina. `npm run desktop` compila o projeto e abre a janela Electron. Não há instalador Windows empacotado nesta entrega.
+As dependências já foram instaladas nesta máquina. `npm run desktop` compila o projeto e abre a janela Electron. Os pacotes nativos podem ser gerados com `npm run dist`; consulte [Build e releases](BUILDING.md).
 
 Para desenvolvimento no navegador: `npm run dev`, depois abra o endereço informado. Para compilar: `npm run build`. Para validar o motor: `npm test`.
 
@@ -71,7 +75,7 @@ O motor resolve continuidade lógica ideal, sem tensão, corrente, impedância, 
 
 Potência trifásica, estrela-triângulo, reversão validada, sensores eletrônicos completos, CLP, comunicação Siemens, pneumática e importação/exportação `.cad` ainda não foram implementados. Motores especiais, transformadores, inversor, soft starter, conversor CC, SSR e relé de fase estão disponíveis para desenho e documentação, mas seus modelos de simulação ainda não foram implementados. A presença de um símbolo somente desenho bloqueia a simulação com identificação dos componentes envolvidos. Os seis exemplos legados foram analisados, mas não são convertidos pelo editor.
 
-O projeto é uma prévia funcional. Acessibilidade completa do desenho, roteamento manual, rotação, múltiplas folhas e empacotamento do instalador também ficam para evolução.
+O projeto é uma prévia funcional. Acessibilidade completa do desenho, roteamento manual, rotação, múltiplas folhas também ficam para evolução.
 
 ## Estrutura
 
@@ -89,3 +93,16 @@ O projeto é uma prévia funcional. Acessibilidade completa do desenho, roteamen
 - `scripts/analyze-legacy.mjs`: análise estática do formato, sem executar o programa original.
 
 Não foi definida uma licença para distribuição deste novo código. Dependências têm suas próprias licenças. A análise não altera permissões de redistribuição dos arquivos originais.
+
+O ícone do aplicativo está em `build/resources/`; a barra do projeto substitui a barra de título padrão. O painel Pavimentos permite reordenar os itens com setas, sem alterar seus níveis. Notas da reconstrução ficam recolhidas em Observações da planta de referência e não indicam erro de execução.
+
+O pré-dimensionamento de cabos, disjuntores, entrada, alimentadores e eletrodutos está descrito em [SIZING.md](SIZING.md).
+
+
+**Navegação 3D:** na aba Planta elétrica, abra **Navegação 3D**. A vista usa a arquitetura e as instalações do pavimento escolhido, com modos perspectiva e ortográfico, rotação por arraste, deslocamento com botão direito e zoom por rolagem ou pinça. Clique na vista para usar WASD / setas (mover), Espaço (superior), Shift (inferior), Home (enquadrar), P (salvar PNG) e Esc (sair da navegação). Também há botões para vistas e zoom. As camadas permitem ocultar paredes, pontos, percursos e identificações ou tornar as paredes transparentes. Alturas desconhecidas só aparecem ao ativar a prévia com alturas padrão, em laranja, sem modificar os dados. Percursos e subidas são ilustrativos; sem altura cadastrada, são exibidos 25 cm abaixo do maior pé-direito do pavimento. O 3D não mostra cobertura e requer WebGL; a planta baixa permanece disponível quando a aceleração gráfica falha.
+
+Na planta baixa, selecione um ou vários componentes, pressione Ctrl+C, troque o pavimento e pressione Ctrl+V. A cópia inclui percursos e fios entre os componentes selecionados; selecionar um percurso também copia suas extremidades. Ctrl+Z desfaz a colagem. Nos campos de texto, os atalhos mantêm a edição normal.
+
+A tela inicial reúne projetos locais com prévias, busca, favoritos, duplicação e exclusão da biblioteca. Novo projeto e Abrir arquivo ficam nessa tela; no editor use Projetos para voltar. O botão Documentação abre o catálogo das concessionárias listado em [CONCESSIONARIAS.md](CONCESSIONARIAS.md).
+
+A biblioteca distingue Ambiente (formatos de cômodos) e Arquitetura (paredes, portas, janelas, aberturas e escadas). Quina / Canto, ao lado de Mão, permite selecionar um ambiente ou parede e arrastar seus vértices, inclusive para formar paredes inclinadas. Ctrl+Z desfaz. Os contornos personalizados são preservados nos arquivos JSON, na cópia e na navegação entre pavimentos.

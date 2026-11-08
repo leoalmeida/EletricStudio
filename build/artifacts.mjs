@@ -1,0 +1,4 @@
+import fs from 'node:fs/promises';import path from 'node:path';import {createHash} from 'node:crypto';
+export function expectedAssets(version){const root='Eletric-Studio-'+version+'-';return [root+'windows-x64-setup.exe',root+'windows-x64-portable.exe',root+'linux-x86_64.AppImage',root+'linux-amd64.deb',...['x64','arm64'].flatMap(a=>['dmg','zip'].map(ext=>root+'macos-'+a+'.'+ext))];}
+export async function checksums(folder,names){return (await Promise.all(names.sort().map(async name=>createHash('sha256').update(await fs.readFile(path.join(folder,name))).digest('hex')+'  '+name))).join('\n')+'\n';}
+export async function verifyAssets(folder,version){const names=expectedAssets(version);for(const name of names){const stat=await fs.lstat(path.join(folder,name));if(!stat.isFile()||stat.isSymbolicLink()||stat.size===0)throw Error('Binário ausente ou vazio: '+name);}return names;}
