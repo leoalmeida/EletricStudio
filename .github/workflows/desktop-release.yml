@@ -2,7 +2,7 @@ name: Desktop builds and release
 on:
   workflow_dispatch:
   pull_request:
-    branches: [main]
+    branches: [main, 'release/v*']
     types: [opened, synchronize, reopened, ready_for_review, closed]
 permissions:
   contents: read
@@ -10,9 +10,8 @@ jobs:
   metadata:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (startsWith(github.head_ref, 'release/v') &&
-       github.event.pull_request.head.repo.full_name == github.repository &&
-       (github.event.action != 'closed' || github.event.pull_request.merged == true))
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       (github.event.action != 'closed' || (github.event.pull_request.merged == true && github.base_ref == 'main')))
     runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -76,7 +75,7 @@ jobs:
             release/${{ matrix.platform }}/SHA256SUMS-*.txt
   publish:
     needs: [metadata, build]
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.base_ref == 'main' && startsWith(github.head_ref, 'release/v')
     runs-on: ubuntu-22.04
     concurrency:
       group: desktop-release-${{ needs.metadata.outputs.tag }}

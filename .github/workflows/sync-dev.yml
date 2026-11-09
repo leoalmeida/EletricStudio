@@ -1,0 +1,32 @@
+name: Sync main into dev
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sync-main-into-dev
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: dev
+          fetch-depth: 0
+      - name: Merge main without rewriting development history
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main dev
+          git checkout -B dev origin/dev
+          if ! git merge --no-edit origin/main; then
+            git merge --abort
+            echo '::error::Conflito ao sincronizar main → dev. Resolva por PR; nenhum commit da dev foi sobrescrito.'
+            exit 1
+          fi
+          git push origin HEAD:dev
