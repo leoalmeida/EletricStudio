@@ -1,0 +1,4 @@
+export const siteCatalog=[['lot','Limite do lote',1200,900,0],['access','Acesso / entrada',250,150,0],['setback','Faixa de recuo',400,100,0],['level','Referência de nível',50,50,0]].map(([type,label,width,depth,height])=>({type,label,width,depth,height}));
+export const structureCatalog=[['column','Pilar',30,30,280],['beam','Viga',300,20,40],['footing','Sapata / fundação',100,100,40],['slab','Laje',400,300,12]].map(([type,label,width,depth,height])=>({type,label,width,depth,height}));
+export const roofCatalog=[['roofPlane','Água do telhado',350,250,50],['ridge','Cumeeira',300,10,30],['gutter','Calha',300,15,10],['downpipe','Condutor pluvial',15,15,280],['skylight','Claraboia',80,120,15]].map(([type,label,width,depth,height])=>({type,label,width,depth,height}));
+export const priorityTitles={terrain:'Terreno e implantação',structure:'Estrutura e fundações',roof:'Cobertura e águas pluviais'};

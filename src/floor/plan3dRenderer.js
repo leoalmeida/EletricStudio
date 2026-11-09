@@ -11,7 +11,7 @@ export function createPlanRenderer(host,data,onError){
  const scene=new THREE.Scene();scene.add(new THREE.HemisphereLight(0xffffff,0x81968d,2.5));
  const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(-10,25,15);scene.add(light);
  const root=new THREE.Group(),walls=new THREE.Group(),devices=new THREE.Group(),routes=new THREE.Group(),labels=new THREE.Group();
- root.add(walls,devices,routes,labels);scene.add(root);
+ const furnishingGroup=new THREE.Group(),structureGroup=new THREE.Group(),roofGroup=new THREE.Group(),terrainGroup=new THREE.Group();root.add(walls,devices,routes,labels,furnishingGroup,structureGroup,roofGroup,terrainGroup);scene.add(root);
  const materials=new Map();
  function material(color,opacity=1){const key=color+':'+opacity;if(!materials.has(key))materials.set(key,new THREE.MeshStandardMaterial({color,roughness:.85,transparent:opacity<1,opacity,side:THREE.DoubleSide}));return materials.get(key);}
  function mesh(geometry,color,parent= root,opacity=1){const m=new THREE.Mesh(geometry,material(color,opacity));parent.add(m);return m;}
@@ -71,6 +71,17 @@ export function createPlanRenderer(host,data,onError){
   // Individual conductor colours are shown alongside the conduit.
   r.wires.slice(0,6).forEach((w,i)=>tube(r.points.map(p=>({...p,x:p.x+(i+1)*.012})),w.color||'#d8aa41',.004,routes));
  }
+ for(const item of data.furnishings||[]){
+  const group=new THREE.Group(),{x,z}=item.position,w=item.width,d=item.depth,h=Math.max(.015,item.height),color=item.color||'#c5b59b';group.position.set(x,(item.elevation||0)/100,z);group.rotation.y=-item.rotation*Math.PI/180;(item.layer==='terrain'?terrainGroup:item.layer==='structure'?structureGroup:item.layer==='roof'?roofGroup:furnishingGroup).add(group);
+  if(item.layer==='terrain'){box(w,.015,d,0,-.12,0,color,group,.35);}
+  else if(item.type==='roofPlane'){const slope=(item.slope||0)/100;const plane=box(w,.08,d*Math.sqrt(1+slope*slope),0,d*slope/2,0,color,group);plane.rotation.x=-Math.atan(slope);}
+  else if(['tree','shrub','indoorPlant'].includes(item.type)){const trunk=mesh(new THREE.CylinderGeometry(w*.04,w*.06,h*.5,8),'#8e7356',group);trunk.position.y=h*.25;const crown=mesh(new THREE.SphereGeometry(1,16,12),color,group);crown.scale.set(w/2,h*.38,d/2);crown.position.y=h*.62;}
+  else if(['floorLamp','pendant','gardenLamp'].includes(item.type)){box(.025,h,.025,0,h/2,0,'#536a62',group);const shade=mesh(new THREE.SphereGeometry(1,12,8),'#f7e6b4',group);shade.scale.set(w/2,Math.min(.2,h*.2),d/2);shade.position.y=h;}
+  else if(['table','desk','island'].includes(item.type)){box(w,.07,d,0,h-.035,0,color,group);for(const x of [-w*.4,w*.4])for(const z of [-d*.35,d*.35])box(.06,h-.07,.06,x,(h-.07)/2,z,'#8e806c',group);}
+  else if(['sofa','armchair'].includes(item.type)){box(w,h*.55,d,0,h*.275,0,color,group);box(w,h*.45,d*.2,0,h*.775,-d*.4,color,group);for(const x of [-w*.45,w*.45])box(w*.1,h*.35,d,x,h*.6,0,color,group);}
+  else if(['bed','singleBed'].includes(item.type)){box(w,h,d,0,h/2,0,color,group);box(w*.8,.08,d*.2,0,h+.04,-d*.32,'#e6e2d5',group);}
+  else box(w,h,d,0,h/2,0,item.type==='tv'?'#314751':item.type==='pond'?'#9acdd8':color,group);
+ }
  let camera,controls,width=1,height=1,disposed=false;
  function render(){if(!disposed&&camera)renderer.render(scene,camera);}
  function projection(mode){
@@ -90,7 +101,7 @@ export function createPlanRenderer(host,data,onError){
  const contextLost=e=>{e.preventDefault();onError('A visualização 3D perdeu a conexão gráfica. Volte à planta e abra a aba 3D novamente.');};canvas.addEventListener('webglcontextlost',contextLost);
  projection('perspective');fit();
  return {projection,fit,view,zoom,move,save,focus,
-  layers(options){walls.visible=options.walls;devices.visible=options.devices;routes.visible=options.routes;labels.visible=options.labels;walls.traverse(o=>{if(o.isMesh){o.userData.originalMaterial??=o.material;const original=o.userData.originalMaterial;o.material=options.transparent?material(original.color.getStyle(),.24):original;}});render();},
+  layers(options){terrainGroup.visible=options.terrain===true;structureGroup.visible=options.structure!==false;roofGroup.visible=options.roof===true;furnishingGroup.visible=options.furniture!==false;walls.visible=options.walls;devices.visible=options.devices;routes.visible=options.routes;labels.visible=options.labels;walls.traverse(o=>{if(o.isMesh){o.userData.originalMaterial??=o.material;const original=o.userData.originalMaterial;o.material=options.transparent?material(original.color.getStyle(),.24):original;}});render();},
   dispose(){disposed=true;observer.disconnect();controls.dispose();canvas.removeEventListener('pointerdown',focus);canvas.removeEventListener('webglcontextlost',contextLost);root.traverse(o=>{o.geometry?.dispose();if(o.isSprite){o.material.map?.dispose();o.material.dispose();}});materials.forEach(m=>m.dispose());renderer.dispose();renderer.forceContextLoss();canvas.remove();}
  };
 }

@@ -1,3 +1,8 @@
+import {validNetwork} from './networkModel.js';
+import {validFinishes} from './finishesModel.js';
+import {validConstruction} from './constructionSchema.js';
+import {validLayout} from './layoutModel.js';
+import {validHydraulics} from './hydraulicModel.js';
 import {validPolygon} from './polygon.js';
 import {deviceLoadEntries,validDeviceConfig} from './deviceConfig.js';
 import {roomToolShapes,roomShapes,roomPoints} from './architecture.js';
@@ -25,7 +30,7 @@ export const nameOf=type=>palette.find(s=>s.type===type)?.label||type;
 export const id=()=>crypto.randomUUID();
 export const round=n=>Math.round(n*100)/100;
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y)/WORLD.unitsPerMeter;
-export function blankPlan(){return {kind:'cade-floor-plan',version:1,name:'Minha planta elétrica',author:'',date:new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'}),mainRating:40,width:WORLD.width,height:WORLD.height,objects:[],routes:[],circuits:[]};}
+export function blankPlan(){return {kind:'cade-floor-plan',version:1,name:'Minha planta residencial',author:'',date:new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'}),mainRating:40,width:WORLD.width,height:WORLD.height,objects:[],routes:[],circuits:[]};}
 export function makeObject(type,x,y,extra={}){
  if(type==='windowRound'){type='window';extra={...extra,windowShape:'round'};}
  if(Object.hasOwn(roomToolShapes,type)){extra={shape:roomToolShapes[type],...extra};type='room';}
@@ -54,12 +59,17 @@ export function boardTopology(p){
  for(const current of queue){for(const r of p.routes.filter(r=>r.circuitIds.length===0&&(r.from===current||r.to===current))){const next=r.from===current?r.to:r.from;if(!seen.has(next)){seen.add(next);parent.set(next,current);queue.push(next);}}}
  return boards.map(b=>{let previous=parent.get(b.id),parentId=main?.id||'',depth=0;while(previous){const board=boards.find(o=>o.id===previous);if(board){parentId=board.id;break;}previous=parent.get(previous);}let ancestor=parent.get(b.id);while(ancestor){if(boards.some(o=>o.id===ancestor))depth++;ancestor=parent.get(ancestor);}return {board:b,parentId,depth,connected:seen.has(b.id)};});
 }
-export function removeItem(p,itemId){return {...p,objects:p.objects.filter(o=>o.id!==itemId).map(o=>({...o})),routes:p.routes.filter(r=>r.id!==itemId&&r.from!==itemId&&r.to!==itemId),circuits:p.circuits.map(c=>c.panelId===itemId?{...c,panelId:''}:c)};}
+export function removeItem(p,itemId){return {...p,...(p.finishes?{finishes:{...p.finishes,rooms:p.finishes.rooms.filter(r=>r.roomId!==itemId)}}:{}),objects:p.objects.filter(o=>o.id!==itemId).map(o=>({...o})),routes:p.routes.filter(r=>r.id!==itemId&&r.from!==itemId&&r.to!==itemId),circuits:p.circuits.map(c=>c.panelId===itemId?{...c,panelId:''}:c)};}
 export function validatePlan(p){
  const fail=()=>{throw Error('Arquivo de planta inválido ou incompatível.');};
  // Versões anteriores omitiam a corrente desconhecida ao alternar pavimentos.
  if(p&&typeof p==='object'&&p.mainRating===undefined)p={...p,mainRating:null};
  if(!p||p.kind!=='cade-floor-plan'||p.version!==1||typeof p.name!=='string'||typeof p.author!=='string'||typeof p.date!=='string'||(p.mainRating!==null&&(!Number.isFinite(p.mainRating)||p.mainRating<=0))||!Array.isArray(p.objects)||!Array.isArray(p.routes)||!Array.isArray(p.circuits)||p.objects.length>5000||p.routes.length>10000||p.circuits.length>100||!Number.isFinite(p.width)||!Number.isFinite(p.height)||p.width<400||p.height<400||p.width>10000||p.height>10000)fail();
+ for(const [key,kind] of [['interiors','interior'],['landscaping','landscape'],['site','terrain'],['structure','structure'],['roof','roof']])if(p[key]!==undefined&&!validLayout(p[key],kind,p.width,p.height))fail();
+ for(const kind of ['hvac','systems'])if(p[kind]!==undefined&&!validNetwork(p[kind],kind,p.width,p.height))fail();
+ if(p.finishes!==undefined&&!validFinishes(p.finishes,p.objects))fail();
+ if(p.construction!==undefined&&!validConstruction(p.construction))fail();
+ if(p.hydraulics!==undefined&&!validHydraulics(p.hydraulics,p.width,p.height))fail();
  if(p.budget!==undefined&&!validBudget(p.budget))fail();
  if(p.supply!==undefined){const s=p.supply;if(!s||typeof s!=='object'||Array.isArray(s))fail();for(const key of ['utility','voltageLabel'])if(s[key]!==undefined&&(typeof s[key]!=='string'||s[key].length>120))fail();if(s.phases!==undefined&&s.phases!==null&&![1,2,3].includes(s.phases))fail();for(const key of ['phaseSection','neutralSection','earthSection','meterBreaker'])if(s[key]!==undefined&&s[key]!==null&&(!Number.isFinite(s[key])||s[key]<=0||s[key]>(key==='meterBreaker'?10000:1000)))fail();}
  if(p.floors!==undefined){
@@ -79,7 +89,7 @@ export function validatePlan(p){
  return {...p,routes:p.routes.map(r=>({...r,wires:r.wires||[]}))};
 }
 export function examplePlan(){
- const p=blankPlan();p.name='Residência • planta elétrica';p.author='Projeto didático';
+ const p=blankPlan();p.name='Residência • planta residencial';p.author='Projeto didático';
  const room=(label,x,y,x2,y2)=>makeObject('room',x,y,{x2,y2,label});
  const dg=makeObject('mainBreaker',180,850,{tag:'DG'}),qg=makeObject('board',260,850,{tag:'QGBT'}),meter=makeObject('meter',100,850,{tag:'MED1'}),sub=makeObject('subBoard',1000,850,{tag:'QD1'});
  const c1=makeCircuit(qg.id,1),c2=makeCircuit(qg.id,2),c3=makeCircuit(sub.id,3);Object.assign(c1,{name:'Iluminação',breaker:10,section:1.5});Object.assign(c2,{name:'Tomadas da sala',breaker:16,section:2.5});Object.assign(c3,{name:'Tomadas da cozinha',voltage:220,phase:'BC',breaker:20,section:2.5});p.circuits=[c1,c2,c3];

@@ -1,3 +1,4 @@
+import {footprint} from './layoutModel.js';
 import {wallSegments,roomPoints} from './architecture.js';
 import {wallScene} from './wallScene.js';
 import {nodeTypes,boardTypes,lightingTypes,routePoints} from './model.js';
@@ -36,8 +37,9 @@ export function buildPlanScene(plan,{defaults=false}={}){
   return [{id:r.id,kind:r.kind,points:path,wires:r.wires||[],assumed:!Number.isFinite(r.mountingHeight),circuitIds:r.circuitIds||[]}];
  });
  const rooms=plan.objects.filter(o=>o.type==='room').map(o=>({id:o.id,label:o.label,points:roomPoints(o).map(p=>point3d(p))}));
- const extent=[...walls.flatMap(w=>[w.a,w.b]),...rooms.flatMap(r=>r.points),...devices.filter(d=>d.position).map(d=>d.position),...routes.flatMap(r=>r.points)];
+ const furnishings=[...(plan.interiors?.items||[]),...(plan.landscaping?.items||[]),...(plan.structure?.items||[]).map(i=>({...i,layer:'structure'})),...(plan.roof?.items||[]).map(i=>({...i,layer:'roof'})),...(plan.site?.items||[]).map(i=>({...i,layer:'terrain'}))].map(item=>({...item,position:point3d(item),width:item.width/100,depth:item.depth/100,height:item.height/100}));
+ const extent=[...furnishings.flatMap(item=>footprint({...item,width:item.width*100,depth:item.depth*100}).map(p=>point3d(p))),...walls.flatMap(w=>[w.a,w.b]),...rooms.flatMap(r=>r.points),...devices.filter(d=>d.position).map(d=>d.position),...routes.flatMap(r=>r.points)];
  const minX=extent.length?Math.min(...extent.map(p=>p.x)):0,maxX=extent.length?Math.max(...extent.map(p=>p.x)):plan.width/100;
  const minZ=extent.length?Math.min(...extent.map(p=>p.z)):0,maxZ=extent.length?Math.max(...extent.map(p=>p.z)):plan.height/100;
- return {walls,rooms,devices,routes,ceiling,empty:!extent.length,bounds:{minX,maxX,minZ,maxZ},unknown:devices.filter(d=>d.assumed).length};
+ return {walls,rooms,devices,routes,furnishings,ceiling,empty:!extent.length,bounds:{minX,maxX,minZ,maxZ},unknown:devices.filter(d=>d.assumed).length};
 }

@@ -1,10 +1,11 @@
 const {app,BrowserWindow,ipcMain,dialog,shell}=require('electron');
 const path=require('node:path');
 const fs=require('node:fs/promises');
-app.setName('Eletric Studio');
+const configureProfile=require('./profile.cjs');
+app.setName('Personal Architecture Studio');
 if(process.platform==='win32')app.setAppUserModelId('com.eletricstudio.desktop');
 const smokeTest=process.argv.includes('--smoke-test');
-if(smokeTest){const profile=process.argv.find(a=>a.startsWith('--smoke-profile='));if(!profile)throw Error('Perfil isolado obrigatório.');app.setPath('userData',path.resolve(profile.slice('--smoke-profile='.length)));}
+if(smokeTest){const profile=process.argv.find(a=>a.startsWith('--smoke-profile='));if(!profile)throw Error('Perfil isolado obrigatório.');configureProfile(app,path.resolve(profile.slice('--smoke-profile='.length)));}else configureProfile(app);
 // Acquire the profile lock before Chromium starts its disk caches.
 if(!app.requestSingleInstanceLock()){
  app.quit();
@@ -38,7 +39,7 @@ app.whenReady().then(async()=>{
  ipcMain.handle('floor:export-pdf',async(event,options)=>{
   if(event.sender!==win.webContents||!options||!['A3','A4'].includes(options.paper)||typeof options.landscape!=='boolean'||typeof options.name!=='string')throw Error('Opções de impressão inválidas.');
   const name=options.name.replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').slice(0,100)||'planta';
-  const result=await dialog.showSaveDialog(win,{title:'Salvar planta elétrica em PDF',defaultPath:name+'.pdf',filters:[{name:'PDF',extensions:['pdf']}]});
+  const result=await dialog.showSaveDialog(win,{title:'Salvar planta residencial em PDF',defaultPath:name+'.pdf',filters:[{name:'PDF',extensions:['pdf']}]});
   if(result.canceled||!result.filePath)return {canceled:true};
   const pdf=await win.webContents.printToPDF({printBackground:true,pageSize:options.paper,landscape:options.landscape,preferCSSPageSize:true,displayHeaderFooter:false});
   await fs.writeFile(result.filePath,pdf);return {canceled:false,path:result.filePath};

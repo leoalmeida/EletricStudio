@@ -1,6 +1,6 @@
 const path=require('node:path');
 const {randomUUID}=require('node:crypto');
-const defaultFilters=[{name:'Planta elétrica',extensions:['planta.json','json']}];
+const defaultFilters=[{name:'Planta Residencial',extensions:['planta.json','json']}];
 module.exports=function createPlanFiles({dialog,fs,win,validate,label='planta',extension='planta.json',filters=defaultFilters}){
  const files=new Map();
  return {

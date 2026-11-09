@@ -1,13 +1,16 @@
+import {emptyFinishes} from './finishesModel.js';
+import {emptyLayout} from './layoutModel.js';
+import {emptyHydraulics} from './hydraulicModel.js';
 import {namedWallHeight} from './floorDefaults.js';
 import {blankPlan,id} from './model.js';
 
-const keys=['width','height','mainRating','objects','routes','circuits','reference','supply'];
-export const floorData=p=>Object.fromEntries(keys.map(k=>[k,p[k]===undefined?(k==='reference'||k==='mainRating'?null:k==='supply'?{}:undefined):p[k]]));
+const keys=['width','height','mainRating','objects','routes','circuits','reference','supply','hydraulics','interiors','landscaping','structure','roof','hvac','systems','finishes'];
+export const floorData=p=>Object.fromEntries(keys.map(k=>[k,p[k]===undefined?(k==='reference'||k==='mainRating'?null:k==='supply'?{}:['hydraulics','hvac','systems'].includes(k)?emptyHydraulics():k==='finishes'?emptyFinishes():['interiors','landscaping','structure','roof'].includes(k)?emptyLayout():undefined):p[k]]));
 export function withFloors(p){return p.floors?p:{...p,activeFloorId:'ground',floors:[{id:'ground',name:'Térreo',elevation:0,data:null}]};}
 export function switchFloor(project,nextId){
  const p=withFloors(project),target=p.floors.find(f=>f.id===nextId);
  if(!target||nextId===p.activeFloorId)return p;
- return {...p,...target.data,activeFloorId:nextId,floors:p.floors.map(f=>f.id===p.activeFloorId?{...f,data:floorData(p)}:f.id===nextId?{...f,data:null}:f)};
+ return {...p,...target.data,hvac:target.data?.hvac||emptyHydraulics(),systems:target.data?.systems||emptyHydraulics(),finishes:target.data?.finishes||emptyFinishes(),structure:target.data?.structure||emptyLayout(),roof:target.data?.roof||emptyLayout(),interiors:target.data?.interiors||emptyLayout(),landscaping:target.data?.landscaping||emptyLayout(),hydraulics:target.data?.hydraulics||emptyHydraulics(),activeFloorId:nextId,floors:p.floors.map(f=>f.id===p.activeFloorId?{...f,data:floorData(p)}:f.id===nextId?{...f,data:null}:f)};
 }
 export function addFloor(project,name,copyArchitecture=false){
  const p=withFloors(project);if(p.floors.length>=30)throw Error('Limite de 30 pavimentos.');
