@@ -2,7 +2,7 @@ module.exports={
  appId:'com.eletricstudio.desktop',productName:'Eletric Studio',asar:true,npmRebuild:false,
  electronDist:['win32','linux'].includes(process.platform)&&process.arch==='x64'?'node_modules/electron/dist':undefined,
  directories:{output:'release',buildResources:'build/resources'},
- files:['dist/**/*','electron/**/*.cjs','src/floor/**/*.js','build/resources/icon.png','package.json'],
+ files:['dist/**/*','electron/**/*.cjs','src/floor/**/*.js','src/model.js','src/catalog.js','build/resources/icon.png','package.json'],
  artifactName:'Eletric-Studio-${version}-${os}-${arch}.${ext}',
  win:{icon:'build/resources/icon.ico',target:['nsis','portable'],signExecutable:false},
  nsis:{oneClick:false,perMachine:false,allowToChangeInstallationDirectory:true,artifactName:'Eletric-Studio-${version}-windows-${arch}-setup.${ext}'},

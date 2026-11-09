@@ -1,0 +1,5 @@
+import React from 'react';
+import Symbol from './Symbol.jsx';
+import {terminals} from './model.js';
+import {bounds} from './catalog.js';
+export default function CommandPreview({plan}){const byId=new Map(plan.components.map(c=>[c.id,c])),rects=plan.components.map(c=>{const r=bounds(c);return {left:c.x+r.left,right:c.x+r.right,top:c.y-25,bottom:c.y+110};}),left=rects.length?Math.min(...rects.map(r=>r.left))-30:0,top=rects.length?Math.min(...rects.map(r=>r.top))-30:0,right=rects.length?Math.max(...rects.map(r=>r.right))+30:1200,bottom=rects.length?Math.max(...rects.map(r=>r.bottom))+30:900;return <svg className="project-preview" viewBox={[left,top,Math.max(100,right-left),Math.max(100,bottom-top)].join(' ')} aria-hidden="true"><g fill="none" stroke="#4c7089" strokeWidth="2">{plan.wires.map(w=>{const a=terminals(byId.get(w.from.component))[w.from.pin],b=terminals(byId.get(w.to.component))[w.to.pin];return <path key={w.id} d={'M'+a.x+' '+a.y+'V'+(a.y+b.y)/2+'H'+b.x+'V'+b.y}/>;})}</g>{plan.components.map(c=><g key={c.id} transform={'translate('+c.x+' '+c.y+')'} color="#29475e"><Symbol c={c}/></g>)}</svg>;}

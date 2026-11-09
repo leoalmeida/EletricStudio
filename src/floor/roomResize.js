@@ -2,7 +2,7 @@ import {validPolygon,polygonRoom} from './polygon.js';
 import {roomPoints,projectToWall,openingTypes} from './architecture.js';
 import {wallMounted} from './devicePlacement.js';
 export const roomEdges=room=>{const points=roomPoints(room);return points.map((a,index)=>({index,a,b:points[(index+1)%points.length]}));};
-export function hitRoomEdge(room,point,tolerance=12){return roomEdges(room).map(edge=>({...edge,projection:projectToWall(point,edge)})).filter(edge=>edge.projection&&edge.projection.distance<=tolerance).sort((a,b)=>a.projection.distance-b.projection.distance)[0]||null;}
+export function hitRoomEdge(room,point,tolerance=12){return roomEdges(room).filter(edge=>!room.removedWalls?.includes(edge.index)).map(edge=>({...edge,projection:projectToWall(point,edge)})).filter(edge=>edge.projection&&edge.projection.distance<=tolerance).sort((a,b)=>a.projection.distance-b.projection.distance)[0]||null;}
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 export function resizeRoom(plan,roomId,edgeIndex,delta){
  const room=plan.objects.find(o=>o.id===roomId&&o.type==='room');if(!room)return plan;const edge=roomEdges(room)[edgeIndex];if(!edge||!Number.isFinite(delta))return plan;
