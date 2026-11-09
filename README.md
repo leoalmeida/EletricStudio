@@ -106,3 +106,5 @@ Na planta baixa, selecione um ou vários componentes, pressione Ctrl+C, troque o
 A tela inicial reúne projetos locais com prévias, busca, favoritos, duplicação e exclusão da biblioteca. Novo projeto e Abrir arquivo ficam nessa tela; no editor use Projetos para voltar. O botão Documentação abre o catálogo das concessionárias listado em [CONCESSIONARIAS.md](CONCESSIONARIAS.md).
 
 A biblioteca distingue Ambiente (formatos de cômodos) e Arquitetura (paredes, portas, janelas, aberturas e escadas). Quina / Canto, ao lado de Mão, permite selecionar um ambiente ou parede e arrastar seus vértices, inclusive para formar paredes inclinadas. Ctrl+Z desfaz. Os contornos personalizados são preservados nos arquivos JSON, na cópia e na navegação entre pavimentos.
+
+Para abrir um lado do cômodo, selecione o ambiente e use Remover em Paredes do ambiente no painel lateral. Restaurar recupera o lado removido; Ctrl+Z desfaz. A área e o nome do cômodo são preservados, e as paredes removidas deixam de aparecer no desenho, na impressão e na navegação 3D.

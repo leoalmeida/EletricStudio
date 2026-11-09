@@ -74,3 +74,5 @@
 .corner-drag-handle{cursor:move;touch-action:none}.corner-drag-handle:hover circle{fill:#fff0df;stroke:#a64b1f}
 
 .floor-toolbar .floor-corner-tool{display:inline-flex;align-items:center;gap:5px}
+
+.room-wall-controls{border:1px solid #dbe5ed;border-radius:7px;padding:10px;margin:14px 0}.room-wall-controls legend{font-size:12px;color:#35536b;padding:0 5px}.room-wall-controls>div{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:6px 0;font-size:12px}.room-wall-controls button{padding:5px 8px;font-size:11px}.room-wall-controls .room-wall-remove{color:#a34532}

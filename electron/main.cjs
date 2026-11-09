@@ -26,7 +26,9 @@ app.whenReady().then(async()=>{
  });
  ipcMain.handle('docs:open',async(event,id)=>{if(event.sender!==win.webContents)throw Error('Janela inválida.');const {documentationById}=await import('../src/floor/utilityDocs.js');const doc=documentationById(id);if(!doc||new URL(doc.url).protocol!=='https:')throw Error('Referência de documentação inválida.');await shell.openExternal(doc.url);return true;});
  const planFiles=require('./plan-files.cjs')({dialog,fs,win,validate:validatePlan});
- for(const [channel,method] of [['floor:open-plan','open'],['floor:save-plan','save']])ipcMain.handle(channel,(event,options)=>{if(event.sender!==win.webContents)throw Error('Janela inválida.');if(restarting)throw Error('Aplicação reiniciando.');const action=planFiles[method](options);pendingFiles.add(action);return action.finally(()=>pendingFiles.delete(action));});
+ const {validate:validateCommand}=await import('../src/model.js');
+ const commandFiles=require('./plan-files.cjs')({dialog,fs,win,validate:validateCommand,label:'diagrama',extension:'cade.json',filters:[{name:'Diagrama de comandos',extensions:['cade.json','json']}]});
+ for(const [channel,files,method] of [['floor:open-plan',planFiles,'open'],['floor:save-plan',planFiles,'save'],['command:open',commandFiles,'open'],['command:save',commandFiles,'save']])ipcMain.handle(channel,(event,options)=>{if(event.sender!==win.webContents)throw Error('Janela inválida.');if(restarting)throw Error('Aplicação reiniciando.');const action=files[method](options);pendingFiles.add(action);return action.finally(()=>pendingFiles.delete(action));});
  let quitting=false;app.on('before-quit',()=>quitting=true);
  if(process.platform==='darwin'){win.on('close',event=>{if(!quitting){event.preventDefault();win.hide();}});app.on('activate',()=>{win.show();win.focus();});}
  win.removeMenu();
