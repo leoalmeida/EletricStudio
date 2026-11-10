@@ -1,0 +1,25 @@
+{
+  "target": "branch",
+  "enforcement": "active",
+  "name": "Only repository owner can create releases",
+  "conditions": {
+    "ref_name": {
+      "include": [
+        "refs/heads/release/**/*"
+      ],
+      "exclude": []
+    }
+  },
+  "bypass_actors": [
+    {
+      "actor_id": 1530896,
+      "actor_type": "User",
+      "bypass_mode": "always"
+    }
+  ],
+  "rules": [
+    {
+      "type": "creation"
+    }
+  ]
+}

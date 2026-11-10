@@ -12,7 +12,7 @@ updates:
     commit-message:
       prefix: chore(deps)
     pull-request-branch-name:
-      prefix: chore/dependabot
+      separator: '/'
     groups:
       production:
         dependency-type: production
@@ -30,7 +30,7 @@ updates:
     commit-message:
       prefix: chore(ci)
     pull-request-branch-name:
-      prefix: chore/dependabot
+      separator: '/'
     groups:
       actions:
         patterns: ['*']

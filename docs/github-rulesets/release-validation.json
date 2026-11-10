@@ -1,0 +1,42 @@
+{
+  "target": "branch",
+  "enforcement": "active",
+  "name": "Required release validation",
+  "conditions": {
+    "ref_name": {
+      "include": [
+        "refs/heads/main",
+        "refs/heads/release/**/*"
+      ],
+      "exclude": []
+    }
+  },
+  "bypass_actors": [],
+  "rules": [
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "required_status_checks": [
+          {
+            "context": "metadata",
+            "integration_id": 15368
+          },
+          {
+            "context": "build (win, windows-latest)",
+            "integration_id": 15368
+          },
+          {
+            "context": "build (linux, ubuntu-22.04)",
+            "integration_id": 15368
+          },
+          {
+            "context": "build (mac, macos-latest)",
+            "integration_id": 15368
+          }
+        ],
+        "strict_required_status_checks_policy": true,
+        "do_not_enforce_on_create": true
+      }
+    }
+  ]
+}

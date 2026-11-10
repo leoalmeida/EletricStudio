@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  pull-requests: write
 concurrency:
   group: sync-main-into-dev
   cancel-in-progress: false
@@ -15,18 +16,39 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: dev
+          ref: main
           fetch-depth: 0
-      - name: Merge main without rewriting development history
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Prepare synchronization branch without rewriting history
+        id: sync
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git fetch origin main dev
-          git checkout -B dev origin/dev
-          if ! git merge --no-edit origin/main; then
-            git merge --abort
-            echo '::error::Conflito ao sincronizar main → dev. Resolva por PR; nenhum commit da dev foi sobrescrito.'
+          if git merge-base --is-ancestor origin/main origin/dev; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          branch='chore/sync-main-to-dev'
+          if git ls-remote --exit-code --heads origin "$branch" > /dev/null; then
+            git fetch origin "$branch"
+            git checkout -B "$branch" "origin/$branch"
+          else
+            git checkout -b "$branch" origin/dev
+          fi
+          if ! git merge --no-edit origin/dev || ! git merge --no-edit origin/main; then
+            git merge --abort || true
+            echo '::error::Conflito na sincronização main → dev. As branches protegidas não foram alteradas.'
             exit 1
           fi
-          git push origin HEAD:dev
+          git push origin "HEAD:$branch"
+          echo 'changed=true' >> "$GITHUB_OUTPUT"
+      - name: Open or update PR for owner authorization
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node build/sync-main-dev.mjs

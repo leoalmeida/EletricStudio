@@ -53,3 +53,12 @@ Fluxo obrigatório: `dev → feat/*, fix/*, chore/* ou test/* → release/vX.X.X
 `sync-dev.yml` faz merge de main em dev a cada push na main; conflitos interrompem a execução sem reescrever commits. O workflow passa a operar após ser integrado à main.
 
 O Dependabot verifica npm e GitHub Actions às segundas-feiras, às 09h de São Paulo, agrupando dependências de produção, desenvolvimento e actions. Os PRs são dirigidos à release ativa; atualize `target-branch` ao criar a próxima release. O GitHub calcula os PRs automáticos a partir da branch de destino. Alertas de segurança da branch padrão são um mecanismo separado das atualizações de versão.
+
+
+## Proteção e autorização de branches
+
+As regras do GitHub exigem PRs para main, dev e release/*, bloqueiam force push/exclusão dessas branches e limitam o merge ao usuário leoalmeida. A autorização de merge é distinta de uma revisão: nenhuma aprovação de outra pessoa é obrigatória, pois o GitHub não permite aprovar o próprio PR.
+
+Branches de trabalho usam feat/, fix/, chore/ e test/. A criação de release/* é reservada a leoalmeida. Branches dependabot/* são reservadas à automação autenticada e seus PRs devem apontar à release ativa. Os modelos de rulesets ficam em docs/github-rulesets/; alterações nesses arquivos não aplicam configurações no GitHub automaticamente.
+
+O fluxo main → dev abre ou reutiliza um PR da branch chore/sync-main-to-dev. O proprietário efetua o merge; o workflow não altera dev diretamente e não aprova ou integra PRs. A criação automática do PR requer a permissão de criação de pull requests para GitHub Actions nas configurações do repositório. Essa configuração não concede permissão de merge nas branches protegidas.
