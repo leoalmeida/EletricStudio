@@ -60,7 +60,7 @@ jobs:
       - run: npm test
       - run: npm run dist:${{ matrix.platform }}
       - if: runner.os == 'Windows'
-        run: node build/smoke-desktop.mjs "release/win/win-unpacked/Eletric Studio.exe"
+        run: node build/smoke-desktop.mjs "release/win/win-unpacked/Personal Architecture Studio.exe"
       - uses: actions/upload-artifact@v7
         with:
           name: desktop-${{ matrix.platform }}-${{ needs.metadata.outputs.tag }}

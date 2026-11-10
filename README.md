@@ -1,4 +1,4 @@
-# Eletric Studio
+# Personal Architecture Studio
 
 Prévia 0.5 independente em Electron, React e Node.js para desenhar e simular lógica de comandos elétricos.
 
@@ -6,7 +6,7 @@ Prévia 0.5 independente em Electron, React e Node.js para desenhar e simular l�
 
 ## Novo: planta baixa elétrica
 
-A aba **Planta elétrica** permite criar paredes, portas, ambientes, cotas e anotações, inserir pontos elétricos e ligar circuitos ao disjuntor geral pelos quadros. Inclui biblioteca com 55 ferramentas/símbolos de instalação, propriedades, quadro de cargas, quantitativo de eletrodutos/eletrocalhas, unifilar e exportação PDF A3/A4 com escala, legenda e carimbo. O modo **Comandos e simulação** continua disponível.
+O módulo **Elétrica**, dentro de **Planta Residencial**, permite criar paredes, portas, ambientes, cotas e anotações, inserir pontos elétricos e ligar circuitos ao disjuntor geral pelos quadros. Inclui biblioteca com 55 ferramentas/símbolos de instalação, propriedades, quadro de cargas, quantitativo de eletrodutos/eletrocalhas, unifilar e exportação PDF A3/A4 com escala, legenda e carimbo. O modo **Comandos e simulação** continua disponível.
 
 **Fios em eletrocalhas e conduítes:** selecione um percurso para definir função, circuito, bitola, quantidade e cor de cada condutor (incluindo bicolor), ou use a aba **Fios e cabos** para passar fios em vários trechos. Há representação colorida na planta e quantitativo de fios no PDF.
 
@@ -99,7 +99,7 @@ O ícone do aplicativo está em `build/resources/`; a barra do projeto substitui
 O pré-dimensionamento de cabos, disjuntores, entrada, alimentadores e eletrodutos está descrito em [SIZING.md](SIZING.md).
 
 
-**Navegação 3D:** na aba Planta elétrica, abra **Navegação 3D**. A vista usa a arquitetura e as instalações do pavimento escolhido, com modos perspectiva e ortográfico, rotação por arraste, deslocamento com botão direito e zoom por rolagem ou pinça. Clique na vista para usar WASD / setas (mover), Espaço (superior), Shift (inferior), Home (enquadrar), P (salvar PNG) e Esc (sair da navegação). Também há botões para vistas e zoom. As camadas permitem ocultar paredes, pontos, percursos e identificações ou tornar as paredes transparentes. Alturas desconhecidas só aparecem ao ativar a prévia com alturas padrão, em laranja, sem modificar os dados. Percursos e subidas são ilustrativos; sem altura cadastrada, são exibidos 25 cm abaixo do maior pé-direito do pavimento. O 3D não mostra cobertura e requer WebGL; a planta baixa permanece disponível quando a aceleração gráfica falha.
+**Navegação 3D:** em Planta Residencial → Elétrica, abra **Navegação 3D**. A vista usa a arquitetura e as instalações do pavimento escolhido, com modos perspectiva e ortográfico, rotação por arraste, deslocamento com botão direito e zoom por rolagem ou pinça. Clique na vista para usar WASD / setas (mover), Espaço (superior), Shift (inferior), Home (enquadrar), P (salvar PNG) e Esc (sair da navegação). Também há botões para vistas e zoom. As camadas permitem ocultar paredes, pontos, percursos e identificações ou tornar as paredes transparentes. Alturas desconhecidas só aparecem ao ativar a prévia com alturas padrão, em laranja, sem modificar os dados. Percursos e subidas são ilustrativos; sem altura cadastrada, são exibidos 25 cm abaixo do maior pé-direito do pavimento. A cobertura possui camada opcional no 3D, que requer WebGL; a planta baixa permanece disponível quando a aceleração gráfica falha.
 
 Na planta baixa, selecione um ou vários componentes, pressione Ctrl+C, troque o pavimento e pressione Ctrl+V. A cópia inclui percursos e fios entre os componentes selecionados; selecionar um percurso também copia suas extremidades. Ctrl+Z desfaz a colagem. Nos campos de texto, os atalhos mantêm a edição normal.
 
@@ -108,3 +108,21 @@ A tela inicial reúne projetos locais com prévias, busca, favoritos, duplicaç�
 A biblioteca distingue Ambiente (formatos de cômodos) e Arquitetura (paredes, portas, janelas, aberturas e escadas). Quina / Canto, ao lado de Mão, permite selecionar um ambiente ou parede e arrastar seus vértices, inclusive para formar paredes inclinadas. Ctrl+Z desfaz. Os contornos personalizados são preservados nos arquivos JSON, na cópia e na navegação entre pavimentos.
 
 Para abrir um lado do cômodo, selecione o ambiente e use Remover em Paredes do ambiente no painel lateral. Restaurar recupera o lado removido; Ctrl+Z desfaz. A área e o nome do cômodo são preservados, e as paredes removidas deixam de aparecer no desenho, na impressão e na navegação 3D.
+
+
+## Planta Residencial e módulos
+
+Personal Architecture Studio reúne Arquitetura, Elétrica, Hidráulica e Paisagismo no mesmo projeto residencial. Nos cartões da tela inicial, passe o mouse, use Tab ou toque para escolher o módulo. A arquitetura é compartilhada e a hidráulica possui pontos e tubulações próprios em cada pavimento. Projetos antigos e a biblioteca local continuam compatíveis.
+
+O módulo hidráulico básico permite pontos de água fria/quente, esgoto, registros, ralos, lavatórios, vasos e chuveiros; conexão com curvas, edição de diâmetros e declividades, movimentação, exclusão, desfazer/refazer e levantamento de comprimentos em planta. Salve o projeto em JSON para guardar todos os módulos. Os desenhos não calculam vazão, pressão nem dimensionamento hidráulico automático.
+
+Arquitetura inclui uma visão de decoração com sofá, camas, luminárias, mesa, cadeiras, televisão, geladeira, freezer e móveis planejados. Largura, profundidade, altura, rotação e acabamento são editáveis; a representação 3D usa essas dimensões. A visão Ambientes e medidas edita a base única compartilhada. Paisagismo acrescenta árvores, arbustos, canteiros, gramado, caminhos, bancos, jardineiras e lago ornamental dentro dos ambientes Jardim. Se uma alteração da arquitetura deixar itens fora do jardim, eles são preservados e sinalizados para revisão.
+
+
+Terreno, Estrutura, Cobertura e Compatibilização possuem ferramentas básicas na mesma planta. O terreno mantém lote, faixas de recuo, acessos e cotas compartilhados entre os pavimentos. Estrutura e cobertura possuem elementos por pavimento, dimensões, rotação e cotas editáveis; águas do telhado também têm inclinação. Compatibilização sobrepõe as disciplinas e lista possíveis interferências bidimensionais para revisão, sem alterar os desenhos. Acabamentos define materiais, reservas e preços por piso, parede e teto; suas áreas acompanham os ambientes. Climatização desenha equipamentos, dutos, linhas frigorígenas e drenos. Redes especiais desenha pontos e redes de gás, dados, automação e segurança. Orçamento e obra reúne os quantitativos dos módulos, preços pendentes, exportação CSV e etapas com datas e progresso. Nenhum desses módulos executa cálculo estrutural, validação legal de recuos ou dimensionamento de drenagem.
+
+
+### Plantas e pavimentos
+O módulo Plantas e pavimentos edita a base única da residência: cômodos com nome, largura, comprimento, área e pé-direito, paredes, portas, janelas e níveis dos pavimentos. As marcações de medidas e altura aparecem na planta e na impressão deste módulo. O desenho da cobertura permanece no mesmo arquivo, na visão Desenhar cobertura.
+
+Em Edificação 3D, todos os pavimentos aparecem juntos nas cotas configuradas, inclusive subsolos e cobertura. A cota de base de um item do telhado é relativa ao pavimento onde foi desenhado. O seletor permite isolar um andar; a separação visual cria uma vista explodida sem alterar as cotas salvas. A visualização da base não inclui móveis ou instalações das outras disciplinas.

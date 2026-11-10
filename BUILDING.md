@@ -1,4 +1,4 @@
-# Build e releases do Eletric Studio
+# Build e releases do Personal Architecture Studio
 
 Requer Node.js 24 e npm. Cada sistema produz seu próprio aplicativo Electron; o usuário final não precisa instalar Node.js.
 
@@ -19,7 +19,7 @@ Execute somente o comando correspondente ao sistema atual. `npm run dist` detect
 | Linux | x64 | `.AppImage` e `.deb` |
 | macOS | Intel x64 e Apple Silicon arm64 | `.dmg` e `.zip` por arquitetura |
 
-`npm run pack` gera apenas a pasta do aplicativo para teste. No Windows, `npm run test:packaged` verifica `release/win-unpacked/Eletric Studio.exe` com um perfil temporário isolado. Para outra pasta, execute `node build/smoke-desktop.mjs "caminho/do/executável"`.
+`npm run pack` gera apenas a pasta do aplicativo para teste. No Windows, `npm run test:packaged` verifica `release/win-unpacked/Personal Architecture Studio.exe` com um perfil temporário isolado. Para outra pasta, execute `node build/smoke-desktop.mjs "caminho/do/executável"`.
 
 O ícone editável está em `build/resources/icon.svg`. `npm run icons` regenera PNG, ICO e ICNS. O build inclui apenas a interface compilada, o processo Electron, o modelo JSON usado na abertura/gravação e os recursos necessários; projetos pessoais, testes, documentação e caches não são distribuídos.
 

@@ -29,3 +29,6 @@ test('3D floor selection uses current unsaved data and does not change active fl
 test('empty floors have finite bounds and no degenerate wall geometry',()=>{
  const p=blankPlan();p.objects=[makeObject('wall',100,100,{x2:100,y2:100})];const s=buildPlanScene(p);assert.equal(s.walls.length,0);assert.equal(s.empty,true);assert.ok(Number.isFinite(s.bounds.maxX));
 });
+
+
+test('3D frames furniture and shared terrain even before walls are drawn',()=>{const p=blankPlan();p.interiors={version:1,items:[{id:'f',type:'sofa',label:'Sofá',x:400,y:400,width:220,depth:90,height:85,rotation:90,color:'#abcdef'}]};let scene=buildPlanScene(p);assert.equal(scene.empty,false);assert.equal(scene.furnishings.length,1);assert.ok(scene.bounds.minX<4&&scene.bounds.maxX>4);p.site={version:1,items:[{id:'site',type:'lot',label:'Lote',x:800,y:550,width:1200,depth:900,height:0,rotation:0,color:'#abcdef'}]};scene=buildPlanScene(p);assert.equal(scene.furnishings.at(-1).layer,'terrain');assert.equal(scene.bounds.maxX,14);});

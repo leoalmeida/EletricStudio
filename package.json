@@ -1,5 +1,5 @@
 {
-  "name": "cade-studio",
+  "name": "personal-architecture-studio",
   "version": "0.5.1",
   "private": true,
   "type": "module",
@@ -29,9 +29,9 @@
     "electron-builder": "26.18.0",
     "vite": "^8.3.4"
   },
-  "productName": "Eletric Studio",
-  "description": "Editor de plantas e diagramas elétricos",
-  "author": "Eletric Studio",
+  "productName": "Personal Architecture Studio",
+  "description": "Projetos residenciais de arquitetura, elétrica e hidráulica",
+  "author": "Personal Architecture Studio",
   "license": "UNLICENSED",
   "engines": {
     "node": ">=24"
