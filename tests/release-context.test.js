@@ -1,0 +1,6 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {releaseBranchForEvent} from '../build/release-context.mjs';
+const repo='leoalmeida/EletricStudio';
+const event=(head,base,owner=repo)=>({pull_request:{head:{ref:head,repo:{full_name:owner}},base:{ref:base}}});
+test('feature, fix, chore and test PRs validate the destination release version',()=>{for(const prefix of ['feat','fix','chore','test'])assert.equal(releaseBranchForEvent('pull_request',event(prefix+'/change','release/v0.5.1'),repo),'release/v0.5.1');});
+test('only a release branch can target main',()=>{assert.equal(releaseBranchForEvent('pull_request',event('release/v0.5.1','main'),repo),'release/v0.5.1');for(const head of ['feat/change','fix/change','dev'])assert.throws(()=>releaseBranchForEvent('pull_request',event(head,'main'),repo),/Fluxo obrigatório/);});
+test('forks, unknown events and destinations are rejected; manual builds remain available',()=>{assert.throws(()=>releaseBranchForEvent('pull_request',event('release/v0.5.1','main','other/repo'),repo));assert.throws(()=>releaseBranchForEvent('push',{},repo));assert.throws(()=>releaseBranchForEvent('pull_request',event('feat/change','dev'),repo));assert.equal(releaseBranchForEvent('workflow_dispatch',{},repo),null);});

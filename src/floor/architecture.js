@@ -21,12 +21,11 @@ export function roomLabelPoint(o){
  if(o.shape.endsWith('w'))px=w-px;if(o.shape.startsWith('l-n'))py=h-py;return {x:x+px,y:y+py};
 }
 export const roomCategories=['Sala de estar','Sala de jantar','Quarto','Cozinha','Banheiro','Corredor / Ligação','Área de serviço','Garagem','Varanda','Área externa','Outro'];
-export function wallSegments(objects){return objects.flatMap(o=>{
- if(o.type==='wall')return [{id:o.id,side:'Parede',a:{x:o.x,y:o.y},b:{x:o.x2,y:o.y2},width:o.width,height:o.wallHeight||2.8}];
- if(o.type!=='room')return [];
- const points=roomPoints(o),rect=!o.vertices&&(!o.shape||o.shape==='rectangle');
- return points.map((p,i)=>{let a=p,b=points[(i+1)%points.length];if(b.x<a.x||(b.x===a.x&&b.y<a.y))[a,b]=[b,a];return {id:o.id,side:rect?['Superior','Direita','Inferior','Esquerda'][i]:'Parede '+(i+1)+(!o.vertices&&[2,3].includes(i)?' (recorte)':''),a,b,width:o.width,height:o.wallHeight||2.8};});
-});}
+export function roomWalls(room,includeRemoved=false){const points=roomPoints(room),rect=!room.vertices&&(!room.shape||room.shape==='rectangle');return points.map((a,index)=>({id:room.id,index,side:rect?['Superior','Direita','Inferior','Esquerda'][index]:'Parede '+(index+1)+(!room.vertices&&[2,3].includes(index)?' (recorte)':''),a,b:points[(index+1)%points.length],width:room.width,height:room.wallHeight||2.8,removed:room.removedWalls?.includes(index)||false})).filter(w=>includeRemoved||!w.removed);}
+export function roomWallPath(room){if(!room.removedWalls?.length)return roomPath(room);const walls=roomWalls(room,true),start=(room.removedWalls[0]+1)%walls.length;let path='',drawing=false;for(let step=0;step<walls.length;step++){const wall=walls[(start+step)%walls.length];if(wall.removed){drawing=false;continue;}if(!drawing)path+='M'+wall.a.x+' '+wall.a.y;path+='L'+wall.b.x+' '+wall.b.y;drawing=true;}return path;}
+export function setRoomWall(room,index,removed){if(room.type!=='room'||!Number.isInteger(index)||index<0||index>=roomPoints(room).length)throw Error('Parede do ambiente inválida.');const mask=new Set(room.removedWalls||[]);if(removed)mask.add(index);else mask.delete(index);return {...room,removedWalls:[...mask].sort((a,b)=>a-b)};}
+export function wallSegments(objects){return objects.flatMap(o=>{if(o.type==='wall')return [{id:o.id,side:'Parede',a:{x:o.x,y:o.y},b:{x:o.x2,y:o.y2},width:o.width,height:o.wallHeight||2.8}];if(o.type!=='room')return [];return roomWalls(o).map(w=>{let {a,b}=w;if(b.x<a.x||(b.x===a.x&&b.y<a.y))[a,b]=[b,a];return {...w,a,b};});});}
+
 export function projectToWall(point,wall){
  const dx=wall.b.x-wall.a.x,dy=wall.b.y-wall.a.y,length=Math.hypot(dx,dy);if(length<.01)return null;
  const t=((point.x-wall.a.x)*dx+(point.y-wall.a.y)*dy)/(length*length),x=wall.a.x+Math.max(0,Math.min(1,t))*dx,y=wall.a.y+Math.max(0,Math.min(1,t))*dy;
