@@ -1,4 +1,5 @@
 export const residentialModules=[
+ {id:'plans',label:'Plantas e pavimentos',description:'Cômodos, paredes e edificação 3D',color:'#476d87'},
  {id:'electrical',label:'Elétrica',description:'Pontos, circuitos e instalações',color:'#a66c14'},
  {id:'hydraulic',label:'Hidráulica',description:'Água e esgoto',color:'#287fa2'},
  {id:'architecture',label:'Arquitetura',description:'Ambientes, decoração e móveis',color:'#247b70'},
@@ -13,5 +14,5 @@ export const residentialModules=[
  {id:'budget',label:'Orçamento e obra',description:'Quantitativos, custos e etapas',color:'#857443'}
 ];
 export const architectureTypes=['room','wall','door','slidingDoor','slidingDoorSingle','window','opening','stairs','corner','dimension','text'];
-export const moduleOf=id=>residentialModules.find(module=>module.id===id)||residentialModules[2];
+export const moduleOf=id=>residentialModules.find(module=>module.id===id)||residentialModules.find(module=>module.id==='architecture');
 export function architecturePlan(plan){return {...plan,objects:plan.objects.filter(o=>architectureTypes.includes(o.type)),routes:[],circuits:[],...(plan.floors?{floors:plan.floors.map(f=>({...f,data:f.data?architecturePlan(f.data):null}))}:{})};}

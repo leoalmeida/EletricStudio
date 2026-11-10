@@ -120,3 +120,9 @@ Arquitetura inclui uma visão de decoração com sofá, camas, luminárias, mesa
 
 
 Terreno, Estrutura, Cobertura e Compatibilização possuem ferramentas básicas na mesma planta. O terreno mantém lote, faixas de recuo, acessos e cotas compartilhados entre os pavimentos. Estrutura e cobertura possuem elementos por pavimento, dimensões, rotação e cotas editáveis; águas do telhado também têm inclinação. Compatibilização sobrepõe as disciplinas e lista possíveis interferências bidimensionais para revisão, sem alterar os desenhos. Acabamentos define materiais, reservas e preços por piso, parede e teto; suas áreas acompanham os ambientes. Climatização desenha equipamentos, dutos, linhas frigorígenas e drenos. Redes especiais desenha pontos e redes de gás, dados, automação e segurança. Orçamento e obra reúne os quantitativos dos módulos, preços pendentes, exportação CSV e etapas com datas e progresso. Nenhum desses módulos executa cálculo estrutural, validação legal de recuos ou dimensionamento de drenagem.
+
+
+### Plantas e pavimentos
+O módulo Plantas e pavimentos edita a base única da residência: cômodos com nome, largura, comprimento, área e pé-direito, paredes, portas, janelas e níveis dos pavimentos. As marcações de medidas e altura aparecem na planta e na impressão deste módulo. O desenho da cobertura permanece no mesmo arquivo, na visão Desenhar cobertura.
+
+Em Edificação 3D, todos os pavimentos aparecem juntos nas cotas configuradas, inclusive subsolos e cobertura. A cota de base de um item do telhado é relativa ao pavimento onde foi desenhado. O seletor permite isolar um andar; a separação visual cria uma vista explodida sem alterar as cotas salvas. A visualização da base não inclui móveis ou instalações das outras disciplinas.

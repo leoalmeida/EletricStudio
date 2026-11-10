@@ -1,7 +1,7 @@
 import React,{useId} from 'react';
 import RouteDimensions from './RouteDimensions.jsx';
 import OpeningDrawing from './OpeningDrawing.jsx';
-import {openingTypes,roomPath,roomLabelPoint,roomWallPath} from './architecture.js';
+import {openingTypes,roomPath,roomLabelPoint,roomWallPath,roomArea} from './architecture.js';
 import SocketSymbol from './SocketSymbol.jsx';
 import SwitchSymbol from './SwitchSymbol.jsx';
 import DeviceAnnotations from './DeviceAnnotations.jsx';
@@ -34,10 +34,10 @@ export function PointSymbol({type,object}){
  return <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">{content}</g>;
 }
 
-export function PlanObject({o,selected=false,showLabels=true,gridVisible=false,levelName='',plan,onDown,onDouble}){
+export function PlanObject({o,selected=false,showLabels=true,roomMeasurements=false,gridVisible=false,levelName='',plan,onDown,onDouble}){
  const dx=o.x2-o.x,dy=o.y2-o.y,isLine=['wall','dimension'].includes(o.type),isRoom=o.type==='room',roomLabel=isRoom?roomLabelPoint(o):null;
  return <g className="plan-object" onPointerDown={onDown?e=>onDown(e,o):undefined} onDoubleClick={onDouble?e=>{e.stopPropagation();onDouble(o);}:undefined} style={{color:selected?'#246cc2':['phone','data','camera'].includes(o.type)?'#707b8e':'#293c4a'}}>
- {isRoom?<><path d={roomPath(o)} fill={gridVisible?'transparent':o.openArea?'white':'#fafbf9'} stroke="none"/><path d={roomWallPath(o)} fill="none" stroke={selected?'#347acd':'#7b8587'} strokeWidth={o.width} strokeDasharray={o.openArea?'15 10':undefined}/><path d={roomWallPath(o)} fill="none" stroke="white" strokeWidth={Math.max(1,o.width-3)}/>{o.showName!==false&&<text x={roomLabel.x} y={roomLabel.y} textAnchor="middle" fill="#7c878d" fontSize="15">{o.label}</text>}</>:isLine?<>
+ {isRoom?<><path d={roomPath(o)} fill={gridVisible?'transparent':o.openArea?'white':'#fafbf9'} stroke="none"/><path d={roomWallPath(o)} fill="none" stroke={selected?'#347acd':'#7b8587'} strokeWidth={o.width} strokeDasharray={o.openArea?'15 10':undefined}/><path d={roomWallPath(o)} fill="none" stroke="white" strokeWidth={Math.max(1,o.width-3)}/>{o.showName!==false&&<text x={roomLabel.x} y={roomLabel.y} textAnchor="middle" fill="#7c878d" fontSize="15">{o.label}</text>}{roomMeasurements&&<text className="room-measurements" x={roomLabel.x} y={roomLabel.y+(o.showName!==false?19:0)} textAnchor="middle" fill="#466775" fontSize="12"><tspan x={roomLabel.x}>{(Math.abs(dx)/100).toFixed(2)} × {(Math.abs(dy)/100).toFixed(2)} m · {roomArea(o).toFixed(2)} m²</tspan><tspan x={roomLabel.x} dy="16">Pé-direito: {(o.wallHeight||2.8).toFixed(2)} m</tspan></text>}</>:isLine?<>
  <path d={`M${o.x} ${o.y}L${o.x2} ${o.y2}`} fill="none" stroke="transparent" strokeWidth="20"/>
  {o.type==='wall'?<><path d={`M${o.x} ${o.y}L${o.x2} ${o.y2}`} stroke={selected?'#347acd':'#7b8587'} strokeWidth={o.width}/><path d={`M${o.x} ${o.y}L${o.x2} ${o.y2}`} stroke="white" strokeWidth={Math.max(1,o.width-3)}/></>:<g fill="none" stroke="currentColor" strokeWidth="1"><path d={`M${o.x} ${o.y}L${o.x2} ${o.y2}M${o.x-5} ${o.y-7}l10 14M${o.x2-5} ${o.y2-7}l10 14`}/><text x={(o.x+o.x2)/2} y={(o.y+o.y2)/2-9} textAnchor="middle" fill="currentColor" stroke="none" fontSize="13">{(Math.hypot(dx,dy)/100).toFixed(2)} m</text></g>}
  </>:<g transform={`translate(${o.x} ${o.y}) rotate(${o.rotation})`}>
@@ -47,10 +47,10 @@ export function PlanObject({o,selected=false,showLabels=true,gridVisible=false,l
  {showLabels&&!hasDeviceProperties(o.type)&&nodeTypes.includes(o.type)&&<g fontSize="10" fill={selected?'#246cc2':'#586e7e'}><text x={o.x+20} y={o.y-6}>{o.tag}</text><text x={o.x+20} y={o.y+9}>{o.label|| (o.power?o.power+' VA':'')}</text>{['junction','board','subBoard'].includes(o.type)&&o.presentation?.height&&<text x={o.x+20} y={o.y+23}>{Number.isFinite(o.height)?'h='+o.height.toLocaleString('pt-BR',{maximumFractionDigits:2})+' m':'h: a confirmar'}</text>}{['riserUp','riserDown'].includes(o.type)&&<text x={o.x+20} y={o.y+23} fill="#319783">{o.type==='riserUp'?'Sobe':'Desce'} → {levelName||'A definir'}</text>}</g>}
  </g>;
 }
-export default function PlanDrawing({plan,selected,selectedIds=[],onObjectDown,onObjectDouble,onRouteDown,onRouteDouble,onWireDouble,showGrid=false,gridZoom=1,showLabels=true,showRoutes=true,showWires=true,showRouteSizes=true,showRouteLengths=false,showDimensions=true,showNodes=true,highlight='',showArchitecture=true}){
+export default function PlanDrawing({plan,selected,selectedIds=[],onObjectDown,onObjectDouble,onRouteDown,onRouteDouble,onWireDouble,showGrid=false,gridZoom=1,showLabels=true,showRoutes=true,showWires=true,showRouteSizes=true,showRouteLengths=false,showDimensions=true,roomMeasurements=false,showNodes=true,highlight='',showArchitecture=true}){
  const gridId=useId().replaceAll(':',''),minorGrid=gridId+'-minor',majorGrid=gridId+'-major',gridStep=gridZoom<.25?50:gridZoom<.6?20:10;
  const architecture=plan.objects.filter(o=>!nodeTypes.includes(o.type)),nodes=plan.objects.filter(o=>nodeTypes.includes(o.type));
- const object=o=><PlanObject key={o.id} o={o} plan={plan} selected={o.id===selected||selectedIds.includes(o.id)} showLabels={showLabels} gridVisible={showGrid} levelName={plan.floors?.find(f=>f.id===o.targetFloorId)?.name||(o.targetFloorId?'Destino removido':'')} onDown={onObjectDown} onDouble={onObjectDouble}/>;
+ const object=o=><PlanObject key={o.id} o={o} plan={plan} selected={o.id===selected||selectedIds.includes(o.id)} showLabels={showLabels} roomMeasurements={roomMeasurements} gridVisible={showGrid} levelName={plan.floors?.find(f=>f.id===o.targetFloorId)?.name||(o.targetFloorId?'Destino removido':'')} onDown={onObjectDown} onDouble={onObjectDouble}/>;
  return <>
  {showGrid&&<g pointerEvents="none" aria-hidden="true"><defs><pattern id={minorGrid} width={gridStep} height={gridStep} patternUnits="userSpaceOnUse"><path d={`M${gridStep} 0H0V${gridStep}`} fill="none" stroke="#ccd5de" strokeWidth={.6/gridZoom}/></pattern><pattern id={majorGrid} width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill={`url(#${minorGrid})`}/><path d="M100 0H0V100" fill="none" stroke="#aebdca" strokeWidth={.9/gridZoom}/></pattern></defs><rect width={plan.width} height={plan.height} fill={`url(#${majorGrid})`}/></g>}
  {showArchitecture&&[...architecture].sort((a,b)=>(openingTypes.includes(a.type)?1:0)-(openingTypes.includes(b.type)?1:0)).filter(o=>showDimensions||o.type!=='dimension').map(object)}
